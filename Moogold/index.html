@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>MooGold - Binance Gift Cards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    /* Custom shadow for the logo text */
+    .logo-text-shadow {
+      text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000,
+        -1px -1px 0 #000;
+    }
+    /* Remove underline on hover and add gray color */
+    ul li a:hover,
+    ul li span:hover {
+      text-decoration: none !important;
+      color: #6b7280; /* Tailwind gray-500 */
+      cursor: pointer;
+    }
+    /* Dropdown container */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    /* Dropdown content - hidden by default */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 0.375rem 0.375rem; /* rounded-b-md */
+      z-index: 1000; /* Increased z-index to appear above images */
+      padding-top: 0.5rem;
+    }
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    /* Yellow horizontal decorative line with straight edges, darker and slightly orange, above the dropdown */
+    .dropdown-decor-line {
+      position: absolute;
+      top: -6px;
+      left: 0;
+      height: 3px; /* reduced height for less height */
+      width: 50%;
+      background-color: #d97706; /* Tailwind yellow-700, more orange and darker */
+      border-radius: 0; /* straight edges */
+      z-index: 60;
+      transition: opacity 0.2s ease;
+    }
+    /* Hide the yellow line when hovering dropdown links */
+    .dropdown-content a:hover ~ .dropdown-decor-line,
+    .dropdown-content a:hover + .dropdown-decor-line {
+      opacity: 0;
+    }
+    /* Dropdown links */
+    .dropdown-content a {
+      position: relative;
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #111827; /* Tailwind gray-900 */
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 400;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+    .dropdown-content a:hover {
+      background-color: #f3f4f6; /* Tailwind gray-100 */
+      color: #6b7280; /* Tailwind gray-500 */
+    }
+    /* Yellow line below hovered dropdown link */
+    .dropdown-content a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #d97706; /* same as dropdown line */
+      border-radius: 0;
+      z-index: 60;
+    }
+    /* Full width yellow line below non-dropdown links on hover */
+    ul.flex > li:not(.dropdown) > a:hover {
+      position: relative;
+    }
+    ul.flex > li:not(.dropdown) > a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #d97706; /* same as dropdown line */
+      border-radius: 0;
+      z-index: 60;
+    }
+    /* Inner shadow for search input */
+    .inner-shadow {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.3);
+    }
+    
+    body {
+      font-family: 'Inter', 'Roboto', sans-serif;
+      background-color: #e6e6e6;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .search-container {
+        width: 100%;
+        margin: 10px 0;
+      }
+      
+      .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .nav-menu li {
+        margin: 5px 0;
+      }
+      
+      .product-container {
+        flex-direction: column;
+      }
+      
+      .gift-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gift-card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+    /* Make the section full width */
+    .full-width-section {
+      max-width: 100% !important;
+      padding-left: 1.5rem; /* keep px-6 equivalent */
+      padding-right: 1.5rem;
+      border-radius: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    /* Remove purple focus ring and outline only for #toggleDescription */
+    #toggleDescription:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    /* Footer payment logos: semi-transparent by default, full opacity on hover */
+    .payment-logos img {
+      width: 90px;
+      height: auto;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+      cursor: default;
+    }
+    .payment-logos img:hover {
+      opacity: 1;
+    }
+    /* Unselectable buttons */
+    .unselectable {
+      pointer-events: none;
+      opacity: 0.5;
+      user-select: none;
+    }
+    
+    /* New styles for dropdown fix */
+    header {
+      position: relative;
+      z-index: 1000; /* Ensure header stays above all content */
+    }
+    
+    .carousel-container {
+      position: relative;
+      z-index: 1; /* Lower than header */
+    }
+    
+    .info-cards {
+      position: relative;
+      top: 0;
+      margin-top: -60px;
+      z-index: 10; /* Higher than carousel but lower than dropdowns */
+    }
+    
+    @media (max-width: 768px) {
+      .info-cards {
+        margin-top: 20px;
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header
+    class="w-full border-b border-gray-300 shadow-sm bg-white"
+    style="box-shadow: 0 8px 16px rgba(0,0,0,0.2);"
+  >
+    <div
+      class="max-w-5xl mx-auto flex items-center justify-between px-4 py-4 flex-wrap gap-4 header-container"
+    >
+      <!-- Left: Logo -->
+      <a class="flex items-center select-none flex-shrink-0" href="#">
+        <img
+          src="https://cdn.moogold.com/2021/09/moogold.svg"
+          alt="Moogold Logo, stylized text with gold gradient and a small star icon"
+          width="150"
+          height="100"
+          class="w-[150px] h-[100px]"
+          draggable="false"
+        />
+      </a>
+      <!-- Center: Search bar -->
+      <form
+        class="flex rounded-xl overflow-hidden max-w-md w-full inner-shadow bg-[#F3F3F3] flex-grow min-w-[200px] search-container"
+      >
+        <button
+          type="submit"
+          class="bg-[#EBA800] flex items-center justify-center px-6"
+          aria-label="Search"
+        >
+          <i class="fas fa-search text-white text-lg"></i>
+        </button>
+        <input
+          type="search"
+          placeholder="Search products…"
+          class="flex-grow bg-transparent text-gray-600 text-base placeholder-gray-600 px-6 py-2.5 rounded-r-xl focus:outline-none"
+        />
+      </form>
+      <!-- Right: Cart icon -->
+      <a href="../Cart/cart.html" aria-label="Shopping cart" class="text-yellow-500 text-xl ml-4 flex-shrink-0">
+        <i class="fas fa-shopping-basket"></i>
+      </a>
+    </div>
+    <!-- Navigation menu below -->
+    <nav class="max-w-5xl mx-auto px-4 -mt-1.5">
+      <ul
+        class="flex flex-wrap justify-center space-x-8 md:space-x-16 text-base font-normal text-gray-900 py-1 -translate-y-1 select-none nav-menu"
+      >
+        <li>
+          <a href="../Home/home.html" class="block px-1 py-1">GAME</a>
+        </li>
+        <li>
+          <a href="../General/cards.html" class="block px-1 py-1">CARD</a>
+        </li>
+        <li>
+          <a href="#" class="block px-1 py-1">MOBILE RECHARGE</a>
+        </li>
+        <li
+          class="relative dropdown cursor-pointer"
+          id="account-dropdown"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span
+            class="flex items-center select-none px-1 py-1"
+            id="account-toggle"
+            role="button"
+            aria-expanded="false"
+          >
+            ACCOUNT
+            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+          </span>
+          <div
+            class="dropdown-content"
+            id="account-menu"
+            role="menu"
+            aria-labelledby="account-toggle"
+            style="display: none;"
+          >
+            <div class="dropdown-decor-line"></div>
+            <a href="../Account/account.html" role="menuitem" tabindex="-1">MY ACCOUNT</a>
+            <a href="../Account/orders.html" role="menuitem" tabindex="-1">ORDERS</a>
+            <a href="#" role="menuitem" tabindex="-1">MY WALLET</a>
+            <a href="#" role="menuitem" tabindex="-1">ACCOUNT DETAILS</a>
+            <a href="#" role="menuitem" tabindex="-1">LICENSE KEY</a>
+          </div>
+        </li>
+        <li
+          class="relative dropdown cursor-pointer"
+          id="about-dropdown"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span
+            class="flex items-center select-none px-1 py-1"
+            id="about-toggle"
+            role="button"
+            aria-expanded="false"
+          >
+            ABOUT US
+            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+          </span>
+          <div
+            class="dropdown-content"
+            id="about-menu"
+            role="menu"
+            aria-labelledby="about-toggle"
+            style="display: none;"
+          >
+            <div class="dropdown-decor-line"></div>
+            <a href="../About/About.html" role="menuitem" tabindex="-1">ABOUT US</a>
+            <a href="../About/AffiliateArea.html" role="menuitem" tabindex="-1">AFFILIATE</a>
+            <a href="../About/PaymantMethod.html" role="menuitem" tabindex="-1">PAYMENT METHOD</a>
+          </div>
+        </li>
+        <li>
+          <select
+            aria-label="Currency selector"
+            class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+          >
+            <option>AED</option>
+            <option>ARS</option>
+            <option>AUD</option>
+            <option>BDT</option>
+            <option>BRL</option>
+            <option>CAD</option>
+            <option>CLP</option>
+            <option>CNY</option>
+            <option>EGP</option>
+            <option>EUR</option>
+            <option>GBP</option>
+            <option>HKD</option>
+            <option>INR</option>
+            <option>IDR</option>
+            <option>JPY</option>
+            <option>KRW</option>
+            <option>MYR</option>
+            <option>MXN</option>
+            <option>NGN</option>
+            <option>NZD</option>
+            <option>PHP</option>
+            <option>RUB</option>
+            <option>SAR</option>
+            <option>SGD</option>
+            <option>THB</option>
+            <option>TRY</option>
+            <option>TWD</option>
+            <option>USD</option>
+            <option>VND</option>
+          </select>
+        </li>
+      </ul>
+    </nav>
+    <script>
+      // JavaScript to toggle dropdowns on click and close when clicking outside
+      document.addEventListener("DOMContentLoaded", function () {
+        const accountToggle = document.getElementById("account-toggle");
+        const accountMenu = document.getElementById("account-menu");
+        const accountDropdown = document.getElementById("account-dropdown");
+
+        const aboutToggle = document.getElementById("about-toggle");
+        const aboutMenu = document.getElementById("about-menu");
+        const aboutDropdown = document.getElementById("about-dropdown");
+
+        function closeAllDropdowns() {
+          accountMenu.style.display = "none";
+          accountToggle.setAttribute("aria-expanded", "false");
+          aboutMenu.style.display = "none";
+          aboutToggle.setAttribute("aria-expanded", "false");
+        }
+
+        accountToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const isVisible = accountMenu.style.display === "block";
+          closeAllDropdowns();
+          if (!isVisible) {
+            accountMenu.style.display = "block";
+            accountToggle.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        aboutToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const isVisible = aboutMenu.style.display === "block";
+          closeAllDropdowns();
+          if (!isVisible) {
+            aboutMenu.style.display = "block";
+            aboutToggle.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", function () {
+          closeAllDropdowns();
+        });
+
+        // Optional: close dropdowns on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            closeAllDropdowns();
+          }
+        });
+      });
+    </script>
+  </header>
+
+  <!-- Product Section -->
+  <main class="min-h-screen p-6 font-sans">
+    <div class="max-w-full mx-6 my-6 rounded-xl overflow-hidden relative carousel-container">
+      <!-- Carousel container -->
+      <div class="relative rounded-xl overflow-hidden">
+        <!-- Carousel image -->
+        <img alt="Lineage II Original Legacy game promotional image showing a fiery portal with a character silhouette and text 'FORGE YOUR LEGACY CONQUER THE WORLD LINEAGE II ORIGINAL LEGACY AVAILABLE NOW TOP UP TODAY MOOGOLD.COM'" class="w-full rounded-xl object-cover" height="600" id="carousel-image" src="https://cdn.moogold.com/2025/07/Mlbb-aspirant-2.0.png" width="1440"/>
+        <!-- Left arrow -->
+        <button aria-label="Previous slide" class="carousel-arrows absolute top-1/2 left-4 -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-3">
+          <i class="fas fa-chevron-left text-4xl"></i>
+        </button>
+        <!-- Right arrow -->
+        <button aria-label="Next slide" class="carousel-arrows absolute top-1/2 right-4 -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-3">
+          <i class="fas fa-chevron-right text-4xl"></i>
+        </button>
+      </div>
+      <!-- Pagination dots -->
+      <div class="carousel-pagination absolute bottom-0 left-1/2 -translate-x-1/2 flex space-x-3 mb-2" style="transform: translateX(-50%)">
+        <button aria-label="Go to slide 1" class="w-3 h-3 rounded-full bg-gray-400"></button>
+        <button aria-label="Go to slide 2" class="w-3 h-3 rounded-full bg-blue-600"></button>
+        <button aria-label="Go to slide 3" class="w-3 h-3 rounded-full bg-gray-400"></button>
+        <button aria-label="Go to slide 4" class="w-3 h-3 rounded-full bg-gray-400"></button>
+      </div>
+    </div>
+    
+    <!-- Info cards container - separated and lowered below image with transparent background -->
+    <div class="info-cards relative w-[90%] max-w-7xl mx-auto bg-white bg-opacity-70 backdrop-blur-sm rounded-xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-300 shadow-lg">
+      <!-- Card 1 -->
+      <div class="flex flex-col items-center p-6">
+        <img alt="Icon showing security and login with padlock and windows" class="mb-4" height="64" src="https://cdn.moogold.com/icon/sign-in.svg" width="64"/>
+        <p class="text-center text-gray-800 text-sm sm:text-base">
+          <strong class="text-blue-900">Sign In</strong> or <strong class="text-blue-900">Register</strong>
+        </p>
+      </div>
+      <!-- Card 2 -->
+      <div class="flex flex-col items-center p-6">
+        <img alt="Icon showing game selection with multiple game windows" class="mb-4" height="64" src="https://cdn.moogold.com/icon/product.svg" width="64"/>
+        <p class="text-center text-gray-800 text-sm sm:text-base">
+          Choose your <strong class="text-blue-900">game</strong>, quantity and add to <strong class="text-blue-900">cart</strong>
+        </p>
+      </div>
+      <!-- Card 3 -->
+      <div class="flex flex-col items-center p-6">
+        <img alt="Icon showing payment with wallet and coins" class="mb-4" height="64" src="https://cdn.moogold.com/icon/payment.svg" width="64"/>
+        <p class="text-center text-gray-800 text-sm sm:text-base">
+          Pay with your desired payment method
+        </p>
+      </div>
+      <!-- Card 4 -->
+      <div class="flex flex-col items-center p-6">
+        <img alt="Icon showing automatic delivery with hand holding a package" class="mb-4" height="64" src="https://cdn.moogold.com/icon/delivery.svg" width="64"/>
+        <p class="text-center text-gray-800 text-sm sm:text-base">
+          Automatic delivery! Contact us for any questions or issues that arise.
+        </p>
+      </div>
+    </div>
+
+    <!-- Hot Items Section -->
+    <section class="max-w-full overflow-hidden px-6 py-8 mt-12">
+      <h2 class="text-4xl font-normal text-[#4a4a4a] mb-6 select-none">
+        Hot Items
+      </h2>
+      <div class="relative flex items-center">
+        <button aria-label="Scroll left" class="absolute left-0 z-10 ml-2 flex h-12 w-12 items-center justify-center rounded-full bg-[#f5a800] text-white shadow-md hover:bg-[#e59400] focus:outline-none">
+          <i class="fas fa-arrow-left text-2xl"></i>
+        </button>
+        <div class="no-scrollbar flex space-x-8 overflow-x-auto scroll-smooth px-16" tabindex="0">
+          <div class="flex-shrink-0 rounded-2xl bg-white p-6 shadow-lg max-w-[220px] min-w-[220px]">
+            <div class="relative rounded-xl bg-gradient-to-b from-[#f9f9f9] to-[#e6e6e6] p-4 shadow-inner">
+              <img alt="NetEase Pay card with Saudi Arabia flag in top right corner" class="mx-auto rounded-md" height="120" src="https://cdn.moogold.com/2024/09/netease-pay-SAR.jpg" width="180"/>
+            </div>
+            <p class="mt-6 text-center text-lg text-[#333333]">
+              NetEase Pay (SAR)
+            </p>
+            <button class="mt-8 w-full rounded-full bg-[#f5a800] py-3 text-center font-semibold text-white hover:bg-[#e59400] focus:outline-none">
+              Select Options
+            </button>
+          </div>
+          <div class="flex-shrink-0 rounded-2xl bg-white p-6 shadow-lg max-w-[220px] min-w-[220px]">
+            <div class="relative rounded-xl bg-gradient-to-b from-[#f9f9f9] to-[#e6e6e6] p-4 shadow-inner">
+              <img alt="NetEase Pay card with United Arab Emirates flag in top right corner" class="mx-auto rounded-md" height="120" src="https://cdn.moogold.com/2024/09/netease-pay-aed.jpg" width="180"/>
+            </div>
+            <p class="mt-6 text-center text-lg text-[#333333]">
+              NetEase Pay (AED)
+            </p>
+            <button class="mt-8 w-full rounded-full bg-[#f5a800] py-3 text-center font-semibold text-white hover:bg-[#e59400] focus:outline-none">
+              Select Options
+            </button>
+          </div>
+          <div class="flex-shrink-0 rounded-2xl bg-white p-6 shadow-lg max-w-[220px] min-w-[220px]">
+            <div class="relative rounded-xl bg-gradient-to-b from-[#f9f9f9] to-[#e6e6e6] p-4 shadow-inner">
+              <img alt="NetEase Pay card with Bangladesh flag in top right corner" class="mx-auto rounded-md" height="120" src="https://cdn.moogold.com/2024/09/netease-pay-bdt.jpg" width="180"/>
+            </div>
+            <p class="mt-6 text-center text-lg text-[#333333]">
+              NetEase Pay (BDT)
+            </p>
+            <button class="mt-8 w-full rounded-full bg-[#f5a800] py-3 text-center font-semibold text-white hover:bg-[#e59400] focus:outline-none">
+              Select Options
+            </button>
+          </div>
+          <div class="flex-shrink-0 rounded-2xl bg-white p-6 shadow-lg max-w-[220px] min-w-[220px]">
+            <div class="relative rounded-xl bg-gradient-to-b from-[#f9f9f9] to-[#e6e6e6] p-4 shadow-inner">
+              <img alt="NetEase Pay card with Turkey flag in top right corner" class="mx-auto rounded-md" height="120" src="https://cdn.moogold.com/2024/09/netease-pay-try-768x768.jpg" width="180"/>
+            </div>
+            <p class="mt-6 text-center text-lg text-[#333333]">
+              NetEase Pay (TRY)
+            </p>
+            <button class="mt-8 w-full rounded-full bg-[#f5a800] py-3 text-center font-semibold text-white hover:bg-[#e59400] focus:outline-none">
+              Select Options
+            </button>
+          </div>
+          <div class="flex-shrink-0 rounded-2xl bg-white p-6 shadow-lg max-w-[220px] min-w-[220px]">
+            <div class="relative rounded-xl bg-gradient-to-b from-[#f9f9f9] to-[#e6e6e6] p-4 shadow-inner">
+              <img alt="NetEase Pay card with Nigeria flag in top right corner" class="mx-auto rounded-md" height="120" src="https://cdn.moogold.com/2024/09/netease-pay-ngn-768x768.jpg" width="180"/>
+            </div>
+            <p class="mt-6 text-center text-lg text-[#333333]">
+              NetEase Pay (NGN)
+            </p>
+            <button class="mt-8 w-full rounded-full bg-[#f5a800] py-3 text-center font-semibold text-white hover:bg-[#e59400] focus:outline-none">
+              Select Options
+            </button>
+          </div>
+        </div>
+        <button aria-label="Scroll right" class="absolute right-0 z-10 mr-2 flex h-12 w-12 items-center justify-center rounded-full bg-[#f5a800] text-white shadow-md hover:bg-[#e59400] focus:outline-none">
+          <i class="fas fa-arrow-right text-2xl"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Banner Image Section -->
+    <section class="flex items-center justify-center my-12 px-4">
+      <img 
+        src="https://cdn.moogold.com/2025/04/moogold-banner-2.webp" 
+        alt="Moogold promotional banner" 
+        class="rounded-3xl max-w-full h-auto shadow-lg"
+      />
+    </section>
+
+    <!-- Latest Products Section -->
+    <section class="max-w-full px-6 py-8 bg-[#ebebeb] mt-12">
+      <h2 class="text-3xl font-normal text-gray-700 mb-6">
+        Latest Products
+      </h2>
+      <div class="relative flex items-center">
+        <button aria-label="Scroll left" class="absolute left-0 z-10 ml-2 p-3 rounded-full bg-yellow-500 text-white shadow-md hover:bg-yellow-600 focus:outline-none">
+          <i class="fas fa-arrow-left text-2xl"></i>
+        </button>
+        <div class="flex space-x-6 overflow-x-auto scrollbar-hide px-16" style="scroll-behavior: smooth;">
+          <div class="flex-shrink-0 w-56 bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+            <img alt="Rememento: White Shadow game character with red eye and dark background" class="rounded-xl mb-6" height="240" src="https://cdn.moogold.com/2025/07/rememento-white-shadow.jpg" width="240"/>
+            <p class="text-center text-gray-700 mb-8 leading-relaxed">
+              Rememento: White Shadow
+            </p>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-8 py-3">
+              Select options
+            </button>
+          </div>
+          <div class="flex-shrink-0 w-56 bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+            <img alt="JetonCash Voucher EU pink and orange gradient voucher card with logo" class="rounded-xl mb-6" height="240" src="https://cdn.moogold.com/2025/07/jeton-cash-768x768.jpg" width="240"/>
+            <p class="text-center text-gray-700 mb-8 leading-relaxed">
+              JetonCash Voucher (EU)
+            </p>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-8 py-3">
+              Select Options
+            </button>
+          </div>
+          <div class="flex-shrink-0 w-56 bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+            <img alt="Top Eleven Be Football Manager 2025 football players on field with trophy" class="rounded-xl mb-6" height="240" src="https://cdn.moogold.com/2025/07/top-eleven.jpg" width="240"/>
+            <p class="text-center text-gray-700 mb-8 leading-relaxed">
+              Top Eleven Be Football Manager
+            </p>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-8 py-3">
+              Select options
+            </button>
+          </div>
+          <div class="flex-shrink-0 w-56 bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+            <img alt="EA FC Mobile BR logo on dark blue background with orange and blue accents" class="rounded-xl mb-6" height="240" src="https://cdn.moogold.com/2023/06/FIFA-Mobile-768x768.jpg" width="240"/>
+            <p class="text-center text-gray-700 mb-8 leading-relaxed">
+              EA FC Mobile (BR)
+            </p>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-8 py-3">
+              Select options
+            </button>
+          </div>
+          <div class="flex-shrink-0 w-56 bg-white rounded-xl shadow-lg p-6 flex flex-col items-center">
+            <img alt="EA FC Mobile ZA logo on dark blue background with orange and blue accents" class="rounded-xl mb-6" height="240" src="https://cdn.moogold.com/2023/06/FIFA-Mobile-768x768.jpg" width="240"/>
+            <p class="text-center text-gray-700 mb-8 leading-relaxed">
+              EA FC Mobile (ZA)
+            </p>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-full px-8 py-3">
+              Select options
+            </button>
+          </div>
+        </div>
+        <button aria-label="Scroll right" class="absolute right-0 z-10 mr-2 p-3 rounded-full bg-yellow-500 text-white shadow-md hover:bg-yellow-600 focus:outline-none">
+          <i class="fas fa-arrow-right text-2xl"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Popular Categories Section -->
+    <section class="max-w-7xl mx-auto mt-12 px-4">
+      <h1 class="text-4xl font-sans text-gray-700 mb-6">
+        Popular Categories
+      </h1>
+      <div class="grid grid-cols-2 md:grid-cols-4 border border-yellow-500 rounded-lg overflow-hidden">
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="PlayStation logo black text on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/playstation.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="Nintendo logo white text on red background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/nintendo.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="XBOX logo green text and icon on white background" class="max-h-14 object-contain" height="60" src="https://storage.googleapis.com/a1aa/image/d985e57a-fd4a-401e-fc7f-e1a0c4d5bcb0.jpg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="Garena logo red text and icon on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/garena.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="Riot Games logo red text and icon on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/riot.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="Google Play logo multicolor icon and gray text on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/google-play-new.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="iTunes logo black apple icon and text on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/apple-itunes.svg" width="200"/>
+        </div>
+        <div class="border border-yellow-500 flex justify-center items-center p-8 bg-white">
+          <img alt="PUBG logo black text on white background" class="max-h-14 object-contain" height="60" src="https://cdn.moogold.com/icon/pubg.svg" width="200"/>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer Section - Added from code2 -->
+  <footer class="bg-[#181c26] text-white font-sans">
+    <section class="max-w-7xl mx-auto px-6 py-8 bg-white full-width-section" style="border-radius: 0px;">
+      <div class="flex flex-wrap justify-between items-center gap-4 payment-logos" style="">
+        <img alt="Mastercard logo with red and yellow overlapping circles and text Mastercard" src="https://cdn.moogold.com/icon/mastercard.svg" />
+        <img alt="Grab logo with green text and icon" src="https://cdn.moogold.com/2021/08/grab-logo.svg" />
+        <img alt="QRIS logo with black text and QR code icon" src="https://cdn.moogold.com/2021/09/qris-logo.svg" />
+        <img alt="Prompt Pay logo with blue and white colors and Thai text" src="https://cdn.moogold.com/2022/01/prompt-pay-logo.jpg" />
+        <img alt="Pix logo with green text and icon" src="https://cdn.moogold.com/2022/01/pix-logo.svg" />
+        <img alt="TNG e-wallet logo with red and white colors" src="https://cdn.moogold.com/2022/06/tng-ewallet-logo-scaled.jpg" />
+        <img alt="FPX logo with blue text and icon" src="https://cdn.moogold.com/2021/08/fpx.svg" />
+        <img alt="Visa logo with blue text and icon" src="https://cdn.moogold.com/icon/visa.svg" />
+      </div>
+    </section>
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex flex-wrap justify-between gap-y-10 footer-columns">
+        <div class="min-w-[180px]">
+          <h3 class="font-semibold text-xl mb-6">
+            <a class="hover:underline" href="/our-company">
+              Our Company
+            </a>
+          </h3>
+          <ul class="space-y-4 text-base font-normal">
+            <li>
+              <a class="hover:underline" href="/privacy-policy">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/terms-and-conditions">
+                Terms and Conditions
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/refund-policy">
+                Refund Policy
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/about-us">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/payment-method">
+                Payment Method
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="min-w-[140px]">
+          <h3 class="font-semibold text-xl mb-6">
+            <a class="hover:underline" href="/category">
+              Category
+            </a>
+          </h3>
+          <ul class="space-y-4 text-base font-normal">
+            <li>
+              <a class="hover:underline" href="/category/game">
+                Game
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/card">
+                Card
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/account">
+                Account
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/affiliate">
+                Affiliate
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/about-us">
+                About Us
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="min-w-[140px]">
+          <h3 class="font-semibold text-xl mb-6">
+            Support
+          </h3>
+          <p class="text-base font-normal">
+            sales@moogold.com
+          </p>
+        </div>
+        <div class="min-w-[220px] flex flex-col items-start">
+          <img alt="MooGold logo with cow face and gold coins, stylized vector logo in gold and black colors" class="mb-6 w-[180px] h-[120px] object-contain" height="120" src="https://cdn.moogold.com/2021/09/moogold.svg" width="180"/>
+          <p class="mb-6 text-base font-normal leading-relaxed">
+            Copyright © 2024 MooGold. All
+            <br/>
+            Rights Reserved.
+          </p>
+          <p class="mb-2 text-base font-normal">
+            Follow us at
+          </p>
+          <div class="flex space-x-4">
+            <a aria-label="Facebook" class="bg-[#3b5998] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.facebook.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-facebook-f">
+              </i>
+            </a>
+            <a aria-label="Twitter" class="bg-[#1da1f2] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://twitter.com/MooGoldOfficial" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-twitter">
+              </i>
+            </a>
+            <a aria-label="Instagram" class="bg-[#e1306c] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.instagram.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-instagram">
+              </i>
+            </a>
+            <a aria-label="LinkedIn" class="bg-[#0077b5] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.linkedin.com/company/moogold/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-linkedin-in">
+              </i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 text-base font-normal max-w-3xl">
+        Copyright © 2024 MooGold. All Rights Reserved.
+        <br/>
+        <a class="text-[#d99300] hover:underline" href="/privacy-policy">
+          Privacy Policy
+        </a>
+        <span class="text-[#d99300]">
+          |
+        </span>
+        <a class="text-[#d99300] hover:underline" href="/terms-and-conditions">
+          Terms and Condition
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
