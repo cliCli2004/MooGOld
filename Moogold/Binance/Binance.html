@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>MooGold - Binance Gift Cards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    /* Custom shadow for the logo text */
+    .logo-text-shadow {
+      text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000,
+        -1px -1px 0 #000;
+    }
+    /* Remove underline on hover and add gray color */
+    ul li a:hover,
+    ul li span:hover {
+      text-decoration: none !important;
+      color: #6b7280; /* Tailwind gray-500 */
+      cursor: pointer;
+    }
+    /* Dropdown container */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    /* Dropdown content - hidden by default */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 0.375rem 0.375rem; /* rounded-b-md */
+      z-index: 50;
+      padding-top: 0.5rem;
+    }
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    /* Yellow horizontal decorative line with straight edges, darker and slightly orange, above the dropdown */
+    .dropdown-decor-line {
+      position: absolute;
+      top: -6px;
+      left: 0;
+      height: 3px; /* reduced height for less height */
+      width: 50%;
+      background-color: #d97706; /* Tailwind yellow-700, more orange and darker */
+      border-radius: 0; /* straight edges */
+      z-index: 60;
+      transition: opacity 0.2s ease;
+    }
+    /* Hide the yellow line when hovering dropdown links */
+    .dropdown-content a:hover ~ .dropdown-decor-line,
+    .dropdown-content a:hover + .dropdown-decor-line {
+      opacity: 0;
+    }
+    /* Dropdown links */
+    .dropdown-content a {
+      position: relative;
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #111827; /* Tailwind gray-900 */
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 400;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+    .dropdown-content a:hover {
+      background-color: #f3f4f6; /* Tailwind gray-100 */
+      color: #6b7280; /* Tailwind gray-500 */
+    }
+    /* Yellow line below hovered dropdown link */
+    .dropdown-content a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #d97706; /* same as dropdown line */
+      border-radius: 0;
+      z-index: 60;
+    }
+    /* Full width yellow line below non-dropdown links on hover */
+    ul.flex > li:not(.dropdown) > a:hover {
+      position: relative;
+    }
+    ul.flex > li:not(.dropdown) > a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #d97706; /* same as dropdown line */
+      border-radius: 0;
+      z-index: 60;
+    }
+    /* Inner shadow for search input */
+    .inner-shadow {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.3);
+    }
+    
+    body {
+      font-family: 'Inter', 'Roboto', sans-serif;
+      background-color: #e6e6e6;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .search-container {
+        width: 100%;
+        margin: 10px 0;
+      }
+      
+      .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .nav-menu li {
+        margin: 5px 0;
+      }
+      
+      .product-container {
+        flex-direction: column;
+      }
+      
+      .gift-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gift-card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+    /* Make the section full width */
+    .full-width-section {
+      max-width: 100% !important;
+      padding-left: 1.5rem; /* keep px-6 equivalent */
+      padding-right: 1.5rem;
+      border-radius: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    /* Remove purple focus ring and outline only for #toggleDescription */
+    #toggleDescription:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    /* Footer payment logos: semi-transparent by default, full opacity on hover */
+    .payment-logos img {
+      width: 90px;
+      height: auto;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+      cursor: default;
+    }
+    .payment-logos img:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header
+    class="w-full border-b border-gray-300 shadow-sm bg-white"
+    style="box-shadow: 0 8px 16px rgba(0,0,0,0.2);"
+  >
+    <div
+      class="max-w-5xl mx-auto flex items-center justify-between px-4 py-4 flex-wrap gap-4 header-container"
+    >
+      <!-- Left: Logo -->
+      <a class="flex items-center select-none flex-shrink-0" href="#">
+        <img
+          src="https://cdn.moogold.com/2021/09/moogold.svg"
+          alt="Moogold Logo, stylized text with gold gradient and a small star icon"
+          width="150"
+          height="100"
+          class="w-[150px] h-[100px]"
+          draggable="false"
+        />
+      </a>
+      <!-- Center: Search bar -->
+      <form
+        class="flex rounded-xl overflow-hidden max-w-md w-full inner-shadow bg-[#F3F3F3] flex-grow min-w-[200px] search-container"
+      >
+        <button
+          type="submit"
+          class="bg-[#EBA800] flex items-center justify-center px-6"
+          aria-label="Search"
+        >
+          <i class="fas fa-search text-white text-lg"></i>
+        </button>
+        <input
+          type="search"
+          placeholder="Search products…"
+          class="flex-grow bg-transparent text-gray-600 text-base placeholder-gray-600 px-6 py-2.5 rounded-r-xl focus:outline-none"
+        />
+      </form>
+      <!-- Right: Cart icon -->
+      <a href="..\Cart\cart.html" aria-label="Shopping cart" class="text-yellow-500 text-xl ml-4 flex-shrink-0">
+        <i class="fas fa-shopping-basket"></i>
+      </a>
+    </div>
+    <!-- Navigation menu below -->
+    <nav class="max-w-5xl mx-auto px-4 -mt-1.5">
+      <ul
+        class="flex flex-wrap justify-center space-x-8 md:space-x-16 text-base font-normal text-gray-900 py-1 -translate-y-1 select-none nav-menu"
+      >
+        <li>
+          <a href="../Home/home.html" class="block px-1 py-1">GAME</a>
+        </li>
+        <li>
+          <a href="../General/cards.html" class="block px-1 py-1">CARD</a>
+        </li>
+        <li>
+          <a href="#" class="block px-1 py-1">MOBILE RECHARGE</a>
+        </li>
+        <li
+          class="relative dropdown cursor-pointer"
+          id="account-dropdown"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span
+            class="flex items-center select-none px-1 py-1"
+            id="account-toggle"
+            role="button"
+            aria-expanded="false"
+          >
+            ACCOUNT
+            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+          </span>
+          <div
+            class="dropdown-content"
+            id="account-menu"
+            role="menu"
+            aria-labelledby="account-toggle"
+            style="display: none;"
+          >
+            <div class="dropdown-decor-line"></div>
+            <a href="..\Account\account.html" role="menuitem" tabindex="-1">MY ACCOUNT</a>
+            <a href="..\Account\orders.html" role="menuitem" tabindex="-1">ORDERS</a>
+            <a href="#" role="menuitem" tabindex="-1">MY WALLET</a>
+            <a href="#" role="menuitem" tabindex="-1">ACCOUNT DETAILS</a>
+            <a href="#" role="menuitem" tabindex="-1">LICENSE KEY</a>
+          </div>
+        </li>
+        <li
+          class="relative dropdown cursor-pointer"
+          id="about-dropdown"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span
+            class="flex items-center select-none px-1 py-1"
+            id="about-toggle"
+            role="button"
+            aria-expanded="false"
+          >
+            ABOUT US
+            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+          </span>
+          <div
+            class="dropdown-content"
+            id="about-menu"
+            role="menu"
+            aria-labelledby="about-toggle"
+            style="display: none;"
+          >
+            <div class="dropdown-decor-line"></div>
+            <a href="..\About\About.html" role="menuitem" tabindex="-1">ABOUT US</a>
+            <a href="..\About\AffiliateArea.html" role="menuitem" tabindex="-1">AFFILIATE</a>
+            <a href="..\About\PaymantMethod.html" role="menuitem" tabindex="-1">PAYMENT METHOD</a>
+          </div>
+        </li>
+        <li>
+          <select
+            aria-label="Currency selector"
+            class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+          >
+            <option>AED</option>
+            <option>ARS</option>
+            <option>AUD</option>
+            <option>BDT</option>
+            <option>BRL</option>
+            <option>CAD</option>
+            <option>CLP</option>
+            <option>CNY</option>
+            <option>EGP</option>
+            <option>EUR</option>
+            <option>GBP</option>
+            <option>HKD</option>
+            <option>INR</option>
+            <option>IDR</option>
+            <option>JPY</option>
+            <option>KRW</option>
+            <option>MYR</option>
+            <option>MXN</option>
+            <option>NGN</option>
+            <option>NZD</option>
+            <option>PHP</option>
+            <option>RUB</option>
+            <option>SAR</option>
+            <option>SGD</option>
+            <option>THB</option>
+            <option>TRY</option>
+            <option>TWD</option>
+            <option>USD</option>
+            <option>VND</option>
+          </select>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Product Section -->
+  <main class="bg-[#e6e6e6] min-h-screen p-6 font-sans">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-8">
+        <select
+          aria-label="Currency selector"
+          class="rounded border border-gray-400 px-3 py-1 text-base w-full max-w-xs"
+        >
+          <option>United Arab Emirates dirham</option>
+          <option>Argentine peso</option>
+          <option>Australian dollar</option>
+          <option>Bangladeshi foot</option>
+          <option>Brazilian real</option>
+          <option>Canadian dollar</option>
+          <option>Chilean peso</option>
+          <option>Chinese yuan</option>
+          <option>Egyptian pound</option>
+          <option>Euro</option>
+          <option>Pound sterling</option>
+          <option>Hong Kong dollar</option>
+          <option>Indian rupee</option>
+          <option>Indonesian rupiah</option>
+          <option>Japanese yen</option>
+          <option>South Korean won</option>
+          <option>Malaysian ringgit</option>
+          <option>Mexican peso</option>
+          <option>New Zealand dollar</option>
+          <option>Philippine peso</option>
+          <option>Russian ruble</option>
+          <option>Saudi Riyal</option>
+          <option>Singapore dollar</option>
+          <option>Thai baht</option>
+          <option>Turkish lira</option>
+          <option>New Taiwan dollar</option>
+          <option>Uruguayan peso</option>
+          <option>United States (US) dollar</option>
+          <option>Vietnamese Dong</option>
+          <option>Nigerian naira</option>
+          <option>US Dollar</option>
+          <option>British Pound</option>
+          <option>Swiss Franc</option>
+          <option>South African Rand</option>
+        </select>
+      </div>
+      <nav
+        class="flex flex-wrap items-center space-x-2 text-sm font-semibold text-gray-700 mb-10 select-none"
+        aria-label="Primary Navigation"
+      >
+        <div
+          class="flex items-center bg-gray-300 rounded-r-md relative pr-6 pl-3 py-2 cursor-default"
+          aria-current="page"
+        >
+          <i class="fas fa-home mr-1" aria-hidden="true"></i> Home
+          <svg
+            class="absolute right-0 top-0 h-full w-6 text-gray-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <polygon points="0,0 10,10 0,20"></polygon>
+          </svg>
+        </div>
+        <div
+          class="flex items-center bg-gray-300 rounded-r-md relative pr-6 pl-3 py-2 cursor-default"
+        >
+          Card
+          <svg
+            class="absolute right-0 top-0 h-full w-6 text-gray-300"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <polygon points="0,0 10,10 0,20"></polygon>
+          </svg>
+        </div>
+        <div class="font-bold">Binance Gift Card</div>
+      </nav>
+      <div class="flex flex-col md:flex-row md:space-x-10 product-container">
+        <div class="flex justify-center md:justify-start mb-10 md:mb-0">
+          <img
+            alt="Binance gift card image with black card and yellow Binance logo, card has rounded corners and a hang tab cutout at top center, photographed on a white background with subtle shadows"
+            class="w-[400px] h-[400px] object-contain rounded-lg"
+            height="400"
+            src="https://cdn.moogold.com/2022/06/binance-gift-card.jpg"
+            width="400"
+          />
+        </div>
+        <div class="flex-1 max-w-xl">
+          <div class="rounded-t-md overflow-hidden">
+            <div class="bg-[#f44321] text-white font-bold text-center py-3 text-lg">
+              SALE!
+            </div>
+            <div class="bg-white text-center py-6 text-3xl font-light">
+              Binance Gift Card
+            </div>
+          </div>
+          <p class="text-red-600 font-semibold mt-4 mb-6">
+            Binance gift card expired six months after purchase.
+          </p>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10"
+            id="giftCardButtons"
+          >
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 1 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 5 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 10 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 25 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 50 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 100 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 200 USDT
+            </button>
+            <button
+              class="bg-white border border-gray-300 rounded px-4 py-2 text-center text-base hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="button"
+            >
+              Binance Gift Card 500 USDT
+            </button>
+          </div>
+          <div class="mb-6">
+            <label for="quantity" class="sr-only">Quantity</label>
+            <input
+              id="quantity"
+              aria-label="Quantity"
+              class="border border-gray-300 rounded w-16 px-3 py-2 text-base"
+              min="1"
+              type="number"
+              value="1"
+            />
+          </div>
+          <!-- CHANGED: Button text and id, also no change in appearance or placement -->
+          <button
+            id="buyNowBtn"
+            class="w-full bg-yellow-300 text-white font-semibold py-3 rounded-md text-center cursor-not-allowed select-none"
+            disabled
+            style="background-color: #e6c87c"
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Description Section -->
+  <section class="bg-[#e6e6e6] min-h-screen flex items-center justify-center p-4">
+    <div id="descriptionContainer" class="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
+      <button
+        id="toggleDescription"
+        aria-expanded="false"
+        aria-controls="descriptionContent"
+        class="w-full flex justify-between items-center text-left text-gray-900 font-semibold text-xl md:text-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded"
+      >
+        <span>Description</span>
+        <i class="fas fa-chevron-down transition-transform duration-300" id="toggleIcon"></i>
+      </button>
+      <div
+        id="descriptionContent"
+        class="max-h-0 overflow-hidden transition-all duration-500 text-gray-700 text-sm md:text-base"
+        aria-hidden="true"
+      >
+        <section class="space-y-6">
+          <p>
+            <strong>Binance Description</strong><br />
+            The Binance Gift Card is an innovative, hassle-free way to gift USDT (Tether), a popular stablecoin pegged to the US dollar, to both Binance and non-Binance users. It’s a seamless tool that allows users to send USDT at zero fees. With the digital nature of these gift cards, you can send USDT to anyone, anywhere, anytime, making it an excellent choice for gifting cryptocurrencies. Upon receiving a Binance Gift Card, the recipient can easily redeem it. Once redeemed, the USDT is instantly credited to the recipient’s Binance funding wallet, ready for use. The redemption process is straightforward, designed to ensure that even non-crypto savvy users can access their gifted USDT without any hassles. Purchasing a Binance Gift Card is just as easy. They can be acquired with cash or various other payment methods through Binance’s verified partners. As a secure and customizable gift option, Binance Gift Cards are changing the way we think about gifting and receiving digital assets.
+          </p>
+          <p>
+            <strong>How to redeem Gift Card</strong><br />
+            First, visit this link to redeem.<br />
+            Next, enter the voucher code.<br />
+            After that, press “redeem” and you will receive your balance.
+          </p>
+          <p>
+            <strong>How to buy Binance Gift Card in MooGold:</strong><br />
+            First, sign in to MooGold or register a new account at MooGold.com/account.<br />
+            Next, go to the Shop page to choose the desired category or games you want.<br />
+            You can also search through the search bar.<br />
+            After that, choose the product and select the quantity you want. Click Add to Cart.<br />
+            Next, complete the checkout by choosing a payment method and make a payment.<br />
+            After successful payment, contact live-chat for listing, etc, and with your order id to receive your item.
+          </p>
+          <p>
+            <strong>Why buy a Binance Gift Card from us</strong><br />
+            MooGold, a leading online gaming store, caters to gamers worldwide with a wide range of products and services. Among these offerings is the Binance Gift Card, available in various denominations to match your specific trading needs. Moreover, MooGold makes shopping easy by providing multiple payment options. As you enter the exciting world of cryptocurrency trading, MooGold serves as a dependable partner, not only offering Binance Gift Cards but also top-notch customer support. With a dedicated team available 24/7, you can expect prompt assistance for any queries or concerns. In addition, fast, reliable delivery is another aspect of MooGold’s exceptional customer experience. By buying a Binance Gift Card at MooGold.com, you not only gain a valuable tool for your trading journey but also join a community of gamers and traders who trust the platform for its quality, security, and convenience. Furthermore, MooGold’s support helps you transition smoothly into the realm of cryptocurrency trading, taking advantage of the opportunities on the Binance platform. So, don’t miss the chance to enhance your trading experience. Visit MooGold.com today, explore Binance Gift Card denominations, and choose the one that suits your needs. Consequently, you can rely on a team that prioritizes your satisfaction and success.
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products Section -->
+  <section class="bg-[#e6e6e6] py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-center text-gray-700 text-[22px] font-normal mb-10">
+        Related products
+      </h2>
+      <div class="flex flex-wrap justify-center gap-x-10 gap-y-8">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-w-[260px] w-full flex flex-col items-center p-6">
+          <div class="bg-[#f0f0f0] rounded-lg p-4 w-full relative">
+            <img alt="Twitch gift card with purple background and white Twitch logo" class="rounded-lg mx-auto" height="140" src="https://cdn.moogold.com/2021/07/twitch-gift-card-us-416x416.jpg" width="220"/>
+          </div>
+          <p class="text-center text-gray-800 text-base mt-6 mb-6">
+            Twitch Gift Card (USD)
+          </p>
+<button 
+  class="bg-[#eaa800] text-white font-semibold rounded-full px-6 py-3 hover:bg-[#d49900] transition w-full max-w-[180px]" 
+  type="button"
+  onclick="window.location.href = '../Twitch/Twitch.html';">
+  Select Options
+</button>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white rounded-xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-w-[260px] w-full flex flex-col items-center p-6">
+          <div class="bg-[#f0f0f0] rounded-lg p-4 w-full relative">
+            <img alt="Tango gift card with orange gradient background and white Tango logo" class="rounded-lg mx-auto" height="140" src="https://cdn.moogold.com/2021/04/tango-445x445.jpg" width="220"/>
+          </div>
+          <p class="text-center text-gray-800 text-base mt-6 mb-6">
+            Tango
+          </p>
+<button 
+  class="bg-[#eaa800] text-white font-semibold rounded-full px-6 py-3 hover:bg-[#d49900] transition w-full max-w-[180px]" 
+  type="button"
+  onclick="window.location.href = '../Tango/Tango.html';">
+  Select Options
+</button>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white rounded-xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-w-[260px] w-full flex flex-col items-center p-6">
+          <div class="bg-[#f0f0f0] rounded-lg p-4 w-full relative">
+            <img alt="Crunchyroll gift card with orange background and white Crunchyroll logo" class="rounded-lg mx-auto" height="140" src="https://cdn.moogold.com/2021/08/crunchyroll-gift-card-416x416.jpg" width="220"/>
+          </div>
+          <p class="text-center text-gray-800 text-base mt-6 mb-6">
+            Crunchyroll Gift Card (INT)
+          </p>
+<button 
+  class="bg-[#eaa800] text-white font-semibold rounded-full px-6 py-3 hover:bg-[#d49900] transition w-full max-w-[180px]" 
+  type="button"
+  onclick="window.location.href = '../Crunchyroll/Crunchyroll.html';">
+  Select Options
+</button>
+        </div>
+        <!-- Card 4 -->
+        <div class="bg-white rounded-xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] max-w-[260px] w-full flex flex-col items-center p-6">
+          <div class="bg-[#f0f0f0] rounded-lg p-4 w-full relative">
+            <img alt="TQ Point Card with black background and TQ Point Card logo in blue and yellow" class="rounded-lg mx-auto" height="140" src="https://cdn.moogold.com/2021/06/tq-points-gift-card-us.jpg" width="220"/>
+          </div>
+          <p class="text-center text-gray-800 text-base mt-6 mb-6">
+            TQ Point Cards (Conqueror)
+          </p>
+<button 
+  class="bg-[#eaa800] text-white font-semibold rounded-full px-6 py-3 hover:bg-[#d49900] transition w-full max-w-[180px]" 
+  type="button"
+  onclick="window.location.href = '../TQ/TQ.html';">
+  Select Options
+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="bg-[#181c26] text-white font-sans">
+    <section class="max-w-7xl mx-auto px-6 py-8 bg-white full-width-section" style="border-radius: 0px;">
+      <div class="flex flex-wrap justify-between items-center gap-4 payment-logos" style="">
+        <img alt="Mastercard logo with red and yellow overlapping circles and text Mastercard" src="https://cdn.moogold.com/icon/mastercard.svg" />
+        <img alt="Grab logo with green text and icon" src="https://cdn.moogold.com/2021/08/grab-logo.svg" />
+        <img alt="QRIS logo with black text and QR code icon" src="https://cdn.moogold.com/2021/09/qris-logo.svg" />
+        <img alt="Prompt Pay logo with blue and white colors and Thai text" src="https://cdn.moogold.com/2022/01/prompt-pay-logo.jpg" />
+        <img alt="Pix logo with green text and icon" src="https://cdn.moogold.com/2022/01/pix-logo.svg" />
+        <img alt="TNG e-wallet logo with red and white colors" src="https://cdn.moogold.com/2022/06/tng-ewallet-logo-scaled.jpg" />
+        <img alt="FPX logo with blue text and icon" src="https://cdn.moogold.com/2021/08/fpx.svg" />
+        <img alt="Visa logo with blue text and icon" src="https://cdn.moogold.com/icon/visa.svg" />
+      </div>
+    </section>
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex flex-wrap justify-between gap-y-10 footer-columns">
+        <div class="min-w-[180px]">
+          <h3 class="font-semibold text-xl mb-6">
+            <a class="hover:underline" href="/our-company">
+              Our Company
+            </a>
+          </h3>
+          <ul class="space-y-4 text-base font-normal">
+            <li>
+              <a class="hover:underline" href="/privacy-policy">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/terms-and-conditions">
+                Terms and Conditions
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/refund-policy">
+                Refund Policy
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/about-us">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/payment-method">
+                Payment Method
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="min-w-[140px]">
+          <h3 class="font-semibold text-xl mb-6">
+            <a class="hover:underline" href="/category">
+              Category
+            </a>
+          </h3>
+          <ul class="space-y-4 text-base font-normal">
+            <li>
+              <a class="hover:underline" href="/category/game">
+                Game
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/card">
+                Card
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/account">
+                Account
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/category/affiliate">
+                Affiliate
+              </a>
+            </li>
+            <li>
+              <a class="hover:underline" href="/about-us">
+                About Us
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="min-w-[140px]">
+          <h3 class="font-semibold text-xl mb-6">
+            Support
+          </h3>
+          <p class="text-base font-normal">
+            sales@moogold.com
+          </p>
+        </div>
+        <div class="min-w-[220px] flex flex-col items-start">
+          <img alt="MooGold logo with cow face and gold coins, stylized vector logo in gold and black colors" class="mb-6 w-[180px] h-[120px] object-contain" height="120" src="https://cdn.moogold.com/2021/09/moogold.svg" width="180"/>
+          <p class="mb-6 text-base font-normal leading-relaxed">
+            Copyright © 2024 MooGold. All
+            <br/>
+            Rights Reserved.
+          </p>
+          <p class="mb-2 text-base font-normal">
+            Follow us at
+          </p>
+          <div class="flex space-x-4">
+            <a aria-label="Facebook" class="bg-[#3b5998] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.facebook.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-facebook-f">
+              </i>
+            </a>
+            <a aria-label="Twitter" class="bg-[#1da1f2] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://twitter.com/MooGoldOfficial" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-twitter">
+              </i>
+            </a>
+            <a aria-label="Instagram" class="bg-[#e1306c] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.instagram.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-instagram">
+              </i>
+            </a>
+            <a aria-label="LinkedIn" class="bg-[#0077b5] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.linkedin.com/company/moogold/" rel="noopener noreferrer" target="_blank">
+              <i class="fab fa-linkedin-in">
+              </i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 text-base font-normal max-w-3xl">
+        Copyright © 2024 MooGold. All Rights Reserved.
+        <br/>
+        <a class="text-[#d99300] hover:underline" href="/privacy-policy">
+          Privacy Policy
+        </a>
+        <span class="text-[#d99300]">
+          |
+        </span>
+        <a class="text-[#d99300] hover:underline" href="/terms-and-conditions">
+          Terms and Condition
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // JavaScript for header dropdowns
+    document.addEventListener("DOMContentLoaded", function () {
+      const accountToggle = document.getElementById("account-toggle");
+      const accountMenu = document.getElementById("account-menu");
+      const accountDropdown = document.getElementById("account-dropdown");
+
+      const aboutToggle = document.getElementById("about-toggle");
+      const aboutMenu = document.getElementById("about-menu");
+      const aboutDropdown = document.getElementById("about-dropdown");
+
+      function closeAllDropdowns() {
+        accountMenu.style.display = "none";
+        accountToggle.setAttribute("aria-expanded", "false");
+        aboutMenu.style.display = "none";
+        aboutToggle.setAttribute("aria-expanded", "false");
+      }
+
+      accountToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const isVisible = accountMenu.style.display === "block";
+        closeAllDropdowns();
+        if (!isVisible) {
+          accountMenu.style.display = "block";
+          accountToggle.setAttribute("aria-expanded", "true");
+        }
+      });
+
+      aboutToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const isVisible = aboutMenu.style.display === "block";
+        closeAllDropdowns();
+        if (!isVisible) {
+          aboutMenu.style.display = "block";
+          aboutToggle.setAttribute("aria-expanded", "true");
+        }
+      });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function () {
+        closeAllDropdowns();
+      });
+
+      // Optional: close dropdowns on Escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeAllDropdowns();
+        }
+      });
+    });
+
+    // JavaScript for product buttons
+    const buttonsContainer = document.getElementById('giftCardButtons');
+    // CHANGED: new id
+    const buyNowBtn = document.getElementById('buyNowBtn');
+    let selectedButton = null;
+    let selectedValue = '';
+
+    buttonsContainer.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        // Remove selection from previously selected button
+        if (selectedButton) {
+          selectedButton.classList.remove('ring', 'ring-yellow-400', 'bg-yellow-50');
+        }
+        // Set new selected button
+        selectedButton = btn;
+        selectedValue = btn.innerText.trim();
+        selectedButton.classList.add('ring', 'ring-yellow-400', 'bg-yellow-50');
+
+        // Enable Buy Now button
+        buyNowBtn.disabled = false;
+        buyNowBtn.classList.remove('cursor-not-allowed', 'select-none');
+        buyNowBtn.style.backgroundColor = '#facc15'; // Tailwind yellow-400
+      });
+    });
+
+    // Buy Now button action: go to checkout and store selection in localStorage
+    buyNowBtn.addEventListener('click', function() {
+      if (selectedValue) {
+        var quantity = document.getElementById('quantity').value || '1';
+        localStorage.setItem('binance_selected_card', selectedValue);
+        localStorage.setItem('binance_selected_quantity', quantity);
+        window.location.href = '../Cart/Checkout.html';
+      }
+    });
+
+    // JavaScript for description toggle with margin animation
+    const toggleBtn = document.getElementById('toggleDescription');
+    const content = document.getElementById('descriptionContent');
+    const icon = document.getElementById('toggleIcon');
+
+    toggleBtn.addEventListener('click', () => {
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', !expanded);
+      if (!expanded) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.setAttribute('aria-hidden', 'false');
+        icon.classList.add('rotate-180');
+        content.classList.add('expanded');
+      } else {
+        content.style.maxHeight = '0';
+        content.setAttribute('aria-hidden', 'true');
+        icon.classList.remove('rotate-180');
+        content.classList.remove('expanded');
+      }
+    });
+
+    // On page load, keep it closed
+    window.addEventListener('load', () => {
+      content.style.maxHeight = '0';
+      content.setAttribute('aria-hidden', 'true');
+      icon.classList.remove('rotate-180');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      content.classList.remove('expanded');
+    });
+  </script>
+</body>
+</html>
+
